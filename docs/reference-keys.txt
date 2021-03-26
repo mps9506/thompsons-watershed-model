@@ -1,0 +1,15 @@
+eq:dar
+eq:linearregression1
+eq:linearregression2
+eq:gam
+fig:precipsum
+fig:temp
+fig:wwtf
+tab:dartable
+fig:meandailyresults
+eq:glmstructure
+eq:gamstructure
+fig:dar16396results
+tab:lrresults
+fig:unnamed-chunk-4
+fig:glmplots
