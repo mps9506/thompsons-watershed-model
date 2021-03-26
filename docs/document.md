@@ -771,422 +771,81 @@ m1.lm <- lm(log_Q ~ Flow_08065800 +
             data = df_16396_lm)
 
 
-tbl_regression(m1.lm,
-               intercept = TRUE,
-               estimate_fun = ~style_sigfig(.x, digits = 3),
-               label = list(Flow_08065800 ~ "Q at 08065800",
-                            Flow_08109800 ~ "Q at 08109800",
-                            Flow_08110100 ~ "Q at 08110100",
-                            lag_Flow_08065800 ~ "1 Day Lagged Q at 08065800",
-                            lag_Flow_08109800 ~ "1 Day Lagged Q at 08109800",
-                            lag_Flow_08110100 ~ "1 Day Lagged Q at 08110100")) %>%
-  modify_header(update =list(
-    label ~"**Variable**",
-    estimate ~ "**Coefficient**")) %>%
-  add_glance_source_note(include = c(r.squared, statistic, df)) %>%
-  modify_caption("Summary of linear regression model coefficients at SWQM 16396")
+# tbl_regression(m1.lm,
+#                intercept = TRUE,
+#                estimate_fun = ~style_sigfig(.x, digits = 3),
+#                label = list(Flow_08065800 ~ "Q at 08065800",
+#                             Flow_08109800 ~ "Q at 08109800",
+#                             Flow_08110100 ~ "Q at 08110100",
+#                             lag_Flow_08065800 ~ "1 Day Lagged Q at 08065800",
+#                             lag_Flow_08109800 ~ "1 Day Lagged Q at 08109800",
+#                             lag_Flow_08110100 ~ "1 Day Lagged Q at 08110100")) %>%
+#   modify_header(update =list(
+#     label ~"**Variable**",
+#     estimate ~ "**Coefficient**")) %>%
+#   add_glance_source_note(include = c(r.squared, statistic, df)) %>%
+#   modify_caption("Summary of linear regression model coefficients at SWQM 16396")
+
+flextable::as_flextable(m1.lm) %>%
+  set_caption("Summary of linear regression coefficients at SWQM 16396")
 ```
 
 ```{=html}
-<div id="tojlhmpjdz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#tojlhmpjdz .gt_table {
+<template id="115cd18a-b568-45ff-8db9-042265e65972"><style>
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
   display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
 }
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-ea310c0c{border-collapse:collapse;}.cl-ea13c44e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ea13c44f{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ea143974{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ea143975{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ea14d596{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d597{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d598{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d599{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59a{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59b{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59c{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59d{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59e{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d59f{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14d5a0{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fc9c{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fc9d{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fc9e{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fc9f{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca0{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca1{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca2{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca3{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca4{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca5{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea14fca6{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523ac{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523ad{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523ae{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523af{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b0{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b1{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b2{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b3{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b4{width:33.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b5{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea1523b6{width:92.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea154ab2{width:119.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea154ab3{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-ea310c0c'>
+```
+<caption class="Table Caption">(\#tab:lrresults)Summary of linear regression coefficients at SWQM 16396</caption>
+```{=html}
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-ea154ab2"><p class="cl-ea143974"><span class="cl-ea13c44e"></span></p></td><td class="cl-ea1523b5"><p class="cl-ea143975"><span class="cl-ea13c44e">Estimate</span></p></td><td class="cl-ea1523b6"><p class="cl-ea143975"><span class="cl-ea13c44e">Standard Error</span></p></td><td class="cl-ea154ab3"><p class="cl-ea143975"><span class="cl-ea13c44e">t value</span></p></td><td class="cl-ea154ab3"><p class="cl-ea143975"><span class="cl-ea13c44e">Pr(&gt;|t|)</span></p></td><td class="cl-ea1523b4"><p class="cl-ea143974"><span class="cl-ea13c44e"></span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-ea14d59a"><p class="cl-ea143974"><span class="cl-ea13c44e">(Intercept)</span></p></td><td class="cl-ea14d599"><p class="cl-ea143975"><span class="cl-ea13c44e">1.826</span></p></td><td class="cl-ea14d598"><p class="cl-ea143975"><span class="cl-ea13c44e">0.044</span></p></td><td class="cl-ea14d597"><p class="cl-ea143975"><span class="cl-ea13c44e">41.191</span></p></td><td class="cl-ea14d597"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0000</span></p></td><td class="cl-ea14d596"><p class="cl-ea143974"><span class="cl-ea13c44e">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14d59f"><p class="cl-ea143974"><span class="cl-ea13c44e">Flow_08065800</span></p></td><td class="cl-ea14d59b"><p class="cl-ea143975"><span class="cl-ea13c44e">0.000</span></p></td><td class="cl-ea14d59c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.000</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">1.866</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0631</span></p></td><td class="cl-ea14d59e"><p class="cl-ea143974"><span class="cl-ea13c44e">.</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14d59f"><p class="cl-ea143974"><span class="cl-ea13c44e">Flow_08109800</span></p></td><td class="cl-ea14d59b"><p class="cl-ea143975"><span class="cl-ea13c44e">0.017</span></p></td><td class="cl-ea14d59c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.002</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">7.537</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0000</span></p></td><td class="cl-ea14d59e"><p class="cl-ea143974"><span class="cl-ea13c44e">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14d59f"><p class="cl-ea143974"><span class="cl-ea13c44e">Flow_08110100</span></p></td><td class="cl-ea14d59b"><p class="cl-ea143975"><span class="cl-ea13c44e">0.005</span></p></td><td class="cl-ea14d59c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.001</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">6.213</span></p></td><td class="cl-ea14d59d"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0000</span></p></td><td class="cl-ea14d59e"><p class="cl-ea143974"><span class="cl-ea13c44e">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14fc9f"><p class="cl-ea143974"><span class="cl-ea13c44e">lag_Flow_08065800</span></p></td><td class="cl-ea14fc9e"><p class="cl-ea143975"><span class="cl-ea13c44e">0.000</span></p></td><td class="cl-ea14fc9d"><p class="cl-ea143975"><span class="cl-ea13c44e">0.000</span></p></td><td class="cl-ea14fc9c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.083</span></p></td><td class="cl-ea14fc9c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.9342</span></p></td><td class="cl-ea14d5a0"><p class="cl-ea143974"><span class="cl-ea13c44e"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14fc9f"><p class="cl-ea143974"><span class="cl-ea13c44e">lag_Flow_08109800</span></p></td><td class="cl-ea14fc9e"><p class="cl-ea143975"><span class="cl-ea13c44e">-0.005</span></p></td><td class="cl-ea14fc9d"><p class="cl-ea143975"><span class="cl-ea13c44e">0.002</span></p></td><td class="cl-ea14fc9c"><p class="cl-ea143975"><span class="cl-ea13c44e">-2.231</span></p></td><td class="cl-ea14fc9c"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0264</span></p></td><td class="cl-ea14d5a0"><p class="cl-ea143974"><span class="cl-ea13c44e">*</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea14fca2"><p class="cl-ea143974"><span class="cl-ea13c44e">lag_Flow_08110100</span></p></td><td class="cl-ea14fca4"><p class="cl-ea143975"><span class="cl-ea13c44e">-0.002</span></p></td><td class="cl-ea14fca3"><p class="cl-ea143975"><span class="cl-ea13c44e">0.001</span></p></td><td class="cl-ea14fca1"><p class="cl-ea143975"><span class="cl-ea13c44e">-2.098</span></p></td><td class="cl-ea14fca1"><p class="cl-ea143975"><span class="cl-ea13c44e">0.0367</span></p></td><td class="cl-ea14fca0"><p class="cl-ea143974"><span class="cl-ea13c44e">*</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ea1523ae"><p class="cl-ea143975"><span class="cl-ea13c44f">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05 &lt; '.' &lt; 0.1 &lt; '' &lt; 1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ea1523b1"><p class="cl-ea143974"><span class="cl-ea13c44e"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ea1523b1"><p class="cl-ea143974"><span class="cl-ea13c44e">Residual standard error: 0.7083 on 304 degrees of freedom</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ea1523b1"><p class="cl-ea143974"><span class="cl-ea13c44e">Multiple R-squared: 0.4088, Adjusted R-squared: 0.3972</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ea1523b1"><p class="cl-ea143974"><span class="cl-ea13c44e">F-statistic: 35.04 on 304 and 6 DF, p-value: 0.0000</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="f8f728fa-e60e-4c49-9f0d-6f62f2c127f4"></div>
+<script>
+var dest = document.getElementById("f8f728fa-e60e-4c49-9f0d-6f62f2c127f4");
+var template = document.getElementById("115cd18a-b568-45ff-8db9-042265e65972");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
 
-#tojlhmpjdz .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#tojlhmpjdz .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#tojlhmpjdz .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#tojlhmpjdz .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#tojlhmpjdz .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#tojlhmpjdz .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#tojlhmpjdz .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#tojlhmpjdz .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#tojlhmpjdz .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#tojlhmpjdz .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#tojlhmpjdz .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#tojlhmpjdz .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#tojlhmpjdz .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#tojlhmpjdz .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#tojlhmpjdz .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#tojlhmpjdz .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#tojlhmpjdz .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#tojlhmpjdz .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#tojlhmpjdz .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#tojlhmpjdz .gt_left {
-  text-align: left;
-}
-
-#tojlhmpjdz .gt_center {
-  text-align: center;
-}
-
-#tojlhmpjdz .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#tojlhmpjdz .gt_font_normal {
-  font-weight: normal;
-}
-
-#tojlhmpjdz .gt_font_bold {
-  font-weight: bold;
-}
-
-#tojlhmpjdz .gt_font_italic {
-  font-style: italic;
-}
-
-#tojlhmpjdz .gt_super {
-  font-size: 65%;
-}
-
-#tojlhmpjdz .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<table class="gt_table">
-  <caption>(#tab:lrresults)Summary of linear regression model coefficients at SWQM 16396</caption>
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Variable</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Coefficient</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>p-value</strong></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">(Intercept)</td>
-<td class="gt_row gt_center">1.83</td>
-<td class="gt_row gt_center">1.74, 1.91</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">Q at 08065800</td>
-<td class="gt_row gt_center">0.000</td>
-<td class="gt_row gt_center">0.000, 0.000</td>
-<td class="gt_row gt_center">0.063</td></tr>
-    <tr><td class="gt_row gt_left">Q at 08109800</td>
-<td class="gt_row gt_center">0.017</td>
-<td class="gt_row gt_center">0.013, 0.021</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">Q at 08110100</td>
-<td class="gt_row gt_center">0.005</td>
-<td class="gt_row gt_center">0.004, 0.007</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">1 Day Lagged Q at 08065800</td>
-<td class="gt_row gt_center">0.000</td>
-<td class="gt_row gt_center">0.000, 0.000</td>
-<td class="gt_row gt_center">>0.9</td></tr>
-    <tr><td class="gt_row gt_left">1 Day Lagged Q at 08109800</td>
-<td class="gt_row gt_center">-0.005</td>
-<td class="gt_row gt_center">-0.009, -0.001</td>
-<td class="gt_row gt_center">0.026</td></tr>
-    <tr><td class="gt_row gt_left">1 Day Lagged Q at 08110100</td>
-<td class="gt_row gt_center">-0.002</td>
-<td class="gt_row gt_center">-0.003, 0.000</td>
-<td class="gt_row gt_center">0.037</td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="4">R² = 0.409; Statistic = 35.0; df = 6.00</td>
-    </tr>
-  </tfoot>
-  <tfoot>
-    <tr class="gt_footnotes">
-      <td colspan="4">
-        <p class="gt_footnote">
-          <sup class="gt_footnote_marks">
-            <em>1</em>
-          </sup>
-           
-          CI = Confidence Interval
-          <br />
-        </p>
-      </td>
-    </tr>
-  </tfoot>
-</table>
-</div>
 ```
 
 
@@ -1249,426 +908,69 @@ m1.glm <- gam(adjusted_flow ~
                 wetness:et,
           data = df_16396,
           family = scat(link = "log"))
-tbl_regression(m1.glm,
-               intercept = TRUE,
-               estimate_fun = ~style_sigfig(.x, digits = 3))
+# tbl_regression(m1.glm,
+#                intercept = TRUE,
+#                estimate_fun = ~style_sigfig(.x, digits = 3))
+flextable::as_flextable(m1.glm) %>%
+  flextable::set_caption("Summary of GLM coefficients at SWQM 16396")
 ```
 
 ```{=html}
-<div id="dbknurvzgf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#dbknurvzgf .gt_table {
+<template id="0486c768-0f13-4e57-a7c8-bbf4a78fcbc6"><style>
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
   display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
 }
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-eccba0bc{border-collapse:collapse;}.cl-eca9028c{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-eca9028d{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-eca92992{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-eca92993{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-eca92994{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ecaa13e8{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13e9{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13ea{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13eb{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13ec{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13ed{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13ee{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13ef{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13f0{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13f1{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa13f2{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae4{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae5{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae6{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae7{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae8{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3ae9{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3aea{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3aeb{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3aec{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3aed{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa3aee{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61ea{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61eb{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61ec{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61ed{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61ee{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61ef{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61f0{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61f1{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61f2{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61f3{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa61f4{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f0{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f1{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f2{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f3{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f4{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f5{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f6{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f7{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f8{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88f9{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaa88fa{width:57.8pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaab000{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaab001{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaab002{width:132.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecaab003{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-eccba0bc'>
+```
+<caption class="Table Caption">(\#tab:glmresults)Summary of GLM coefficients at SWQM 16396</caption>
+```{=html}
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-ecaa88f9"><p class="cl-eca92992"><span class="cl-eca9028c">Component</span></p></td><td class="cl-ecaab002"><p class="cl-eca92992"><span class="cl-eca9028c">Term</span></p></td><td class="cl-ecaab001"><p class="cl-eca92993"><span class="cl-eca9028c">Estimate</span></p></td><td class="cl-ecaab003"><p class="cl-eca92993"><span class="cl-eca9028c">Std Error</span></p></td><td class="cl-ecaa88fa"><p class="cl-eca92993"><span class="cl-eca9028c">t-value</span></p></td><td class="cl-ecaab000"><p class="cl-eca92993"><span class="cl-eca9028c">p-value</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td  rowspan="12"class="cl-ecaa13eb"><p class="cl-eca92994"><span class="cl-eca9028d">A. parametric coefficients</span></p></td><td class="cl-ecaa13e8"><p class="cl-eca92992"><span class="cl-eca9028d">(Intercept)</span></p></td><td class="cl-ecaa13ed"><p class="cl-eca92993"><span class="cl-eca9028d">2.496</span></p></td><td class="cl-ecaa13e9"><p class="cl-eca92993"><span class="cl-eca9028d">0.150</span></p></td><td class="cl-ecaa13ea"><p class="cl-eca92993"><span class="cl-eca9028d">16.689</span></p></td><td class="cl-ecaa13ec"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3aeb"><p class="cl-eca92992"><span class="cl-eca9028d">ewood_precip</span></p></td><td class="cl-ecaa3aec"><p class="cl-eca92993"><span class="cl-eca9028d">0.082</span></p></td><td class="cl-ecaa61ea"><p class="cl-eca92993"><span class="cl-eca9028d">0.005</span></p></td><td class="cl-ecaa3aed"><p class="cl-eca92993"><span class="cl-eca9028d">16.189</span></p></td><td class="cl-ecaa61eb"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3ae4"><p class="cl-eca92992"><span class="cl-eca9028d">tavg</span></p></td><td class="cl-ecaa13ef"><p class="cl-eca92993"><span class="cl-eca9028d">-0.028</span></p></td><td class="cl-ecaa13ee"><p class="cl-eca92993"><span class="cl-eca9028d">0.010</span></p></td><td class="cl-ecaa13f0"><p class="cl-eca92993"><span class="cl-eca9028d">-2.876</span></p></td><td class="cl-ecaa13f1"><p class="cl-eca92993"><span class="cl-eca9028d">**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa61ed"><p class="cl-eca92992"><span class="cl-eca9028d">doy</span></p></td><td class="cl-ecaa61f0"><p class="cl-eca92993"><span class="cl-eca9028d">-0.003</span></p></td><td class="cl-ecaa61ee"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa61ef"><p class="cl-eca92993"><span class="cl-eca9028d">-17.953</span></p></td><td class="cl-ecaa61f1"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa88f1"><p class="cl-eca92992"><span class="cl-eca9028d">wetness</span></p></td><td class="cl-ecaa88f0"><p class="cl-eca92993"><span class="cl-eca9028d">0.016</span></p></td><td class="cl-ecaa61f2"><p class="cl-eca92993"><span class="cl-eca9028d">0.005</span></p></td><td class="cl-ecaa88f2"><p class="cl-eca92993"><span class="cl-eca9028d">3.210</span></p></td><td class="cl-ecaa61f4"><p class="cl-eca92993"><span class="cl-eca9028d">**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa88f1"><p class="cl-eca92992"><span class="cl-eca9028d">et</span></p></td><td class="cl-ecaa88f0"><p class="cl-eca92993"><span class="cl-eca9028d">-0.003</span></p></td><td class="cl-ecaa61f2"><p class="cl-eca92993"><span class="cl-eca9028d">0.012</span></p></td><td class="cl-ecaa88f2"><p class="cl-eca92993"><span class="cl-eca9028d">-0.238</span></p></td><td class="cl-ecaa61f4"><p class="cl-eca92993"><span class="cl-eca9028d"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa61ed"><p class="cl-eca92992"><span class="cl-eca9028d">ewood_precip:tavg</span></p></td><td class="cl-ecaa61f0"><p class="cl-eca92993"><span class="cl-eca9028d">-0.004</span></p></td><td class="cl-ecaa61ee"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa61ef"><p class="cl-eca92993"><span class="cl-eca9028d">-14.318</span></p></td><td class="cl-ecaa61f1"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3aeb"><p class="cl-eca92992"><span class="cl-eca9028d">ewood_precip:wetness</span></p></td><td class="cl-ecaa3aec"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa61ea"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa3aed"><p class="cl-eca92993"><span class="cl-eca9028d">4.688</span></p></td><td class="cl-ecaa61eb"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3aeb"><p class="cl-eca92992"><span class="cl-eca9028d">ewood_precip:et</span></p></td><td class="cl-ecaa3aec"><p class="cl-eca92993"><span class="cl-eca9028d">0.001</span></p></td><td class="cl-ecaa61ea"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa3aed"><p class="cl-eca92993"><span class="cl-eca9028d">3.569</span></p></td><td class="cl-ecaa61eb"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3ae4"><p class="cl-eca92992"><span class="cl-eca9028d">tavg:wetness</span></p></td><td class="cl-ecaa13ef"><p class="cl-eca92993"><span class="cl-eca9028d">0.001</span></p></td><td class="cl-ecaa13ee"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa13f0"><p class="cl-eca92993"><span class="cl-eca9028d">4.338</span></p></td><td class="cl-ecaa13f1"><p class="cl-eca92993"><span class="cl-eca9028d">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3ae4"><p class="cl-eca92992"><span class="cl-eca9028d">tavg:et</span></p></td><td class="cl-ecaa13ef"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa13ee"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa13f0"><p class="cl-eca92993"><span class="cl-eca9028d">1.005</span></p></td><td class="cl-ecaa13f1"><p class="cl-eca92993"><span class="cl-eca9028d"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ecaa3ae6"><p class="cl-eca92992"><span class="cl-eca9028d">wetness:et</span></p></td><td class="cl-ecaa3aea"><p class="cl-eca92993"><span class="cl-eca9028d">-0.001</span></p></td><td class="cl-ecaa3ae9"><p class="cl-eca92993"><span class="cl-eca9028d">0.000</span></p></td><td class="cl-ecaa3ae8"><p class="cl-eca92993"><span class="cl-eca9028d">-2.405</span></p></td><td class="cl-ecaa3ae5"><p class="cl-eca92993"><span class="cl-eca9028d">*</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ecaa88f7"><p class="cl-eca92992"><span class="cl-eca9028d">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05 &lt; '.' &lt; 0.1 &lt; '' &lt; 1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ecaa88f7"><p class="cl-eca92992"><span class="cl-eca9028d"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ecaa88f7"><p class="cl-eca92992"><span class="cl-eca9028d">Adjusted R-squared: 0.230, Deviance explained 0.245</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-ecaa88f7"><p class="cl-eca92992"><span class="cl-eca9028d">-REML : 1064.132, Scale est: 1.000, N: 312</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="8dfd625b-f86e-4a71-8a1d-a2a19f3458e7"></div>
+<script>
+var dest = document.getElementById("8dfd625b-f86e-4a71-8a1d-a2a19f3458e7");
+var template = document.getElementById("0486c768-0f13-4e57-a7c8-bbf4a78fcbc6");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
 
-#dbknurvzgf .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#dbknurvzgf .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#dbknurvzgf .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#dbknurvzgf .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#dbknurvzgf .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#dbknurvzgf .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#dbknurvzgf .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#dbknurvzgf .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#dbknurvzgf .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#dbknurvzgf .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#dbknurvzgf .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#dbknurvzgf .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#dbknurvzgf .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#dbknurvzgf .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#dbknurvzgf .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#dbknurvzgf .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#dbknurvzgf .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#dbknurvzgf .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#dbknurvzgf .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#dbknurvzgf .gt_left {
-  text-align: left;
-}
-
-#dbknurvzgf .gt_center {
-  text-align: center;
-}
-
-#dbknurvzgf .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#dbknurvzgf .gt_font_normal {
-  font-weight: normal;
-}
-
-#dbknurvzgf .gt_font_bold {
-  font-weight: bold;
-}
-
-#dbknurvzgf .gt_font_italic {
-  font-style: italic;
-}
-
-#dbknurvzgf .gt_super {
-  font-size: 65%;
-}
-
-#dbknurvzgf .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Beta</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>p-value</strong></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">(Intercept)</td>
-<td class="gt_row gt_center">2.50</td>
-<td class="gt_row gt_center">2.20, 2.79</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">ewood_precip</td>
-<td class="gt_row gt_center">0.082</td>
-<td class="gt_row gt_center">0.072, 0.092</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">tavg</td>
-<td class="gt_row gt_center">-0.028</td>
-<td class="gt_row gt_center">-0.047, -0.009</td>
-<td class="gt_row gt_center">0.004</td></tr>
-    <tr><td class="gt_row gt_left">doy</td>
-<td class="gt_row gt_center">-0.003</td>
-<td class="gt_row gt_center">-0.003, -0.002</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">wetness</td>
-<td class="gt_row gt_center">0.016</td>
-<td class="gt_row gt_center">0.006, 0.025</td>
-<td class="gt_row gt_center">0.001</td></tr>
-    <tr><td class="gt_row gt_left">et</td>
-<td class="gt_row gt_center">-0.003</td>
-<td class="gt_row gt_center">-0.026, 0.020</td>
-<td class="gt_row gt_center">0.8</td></tr>
-    <tr><td class="gt_row gt_left">ewood_precip * tavg</td>
-<td class="gt_row gt_center">-0.004</td>
-<td class="gt_row gt_center">-0.005, -0.004</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">ewood_precip * wetness</td>
-<td class="gt_row gt_center">0.000</td>
-<td class="gt_row gt_center">0.000, 0.000</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">ewood_precip * et</td>
-<td class="gt_row gt_center">0.001</td>
-<td class="gt_row gt_center">0.001, 0.002</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">tavg * wetness</td>
-<td class="gt_row gt_center">0.001</td>
-<td class="gt_row gt_center">0.001, 0.002</td>
-<td class="gt_row gt_center"><0.001</td></tr>
-    <tr><td class="gt_row gt_left">tavg * et</td>
-<td class="gt_row gt_center">0.000</td>
-<td class="gt_row gt_center">0.000, 0.001</td>
-<td class="gt_row gt_center">0.3</td></tr>
-    <tr><td class="gt_row gt_left">wetness * et</td>
-<td class="gt_row gt_center">-0.001</td>
-<td class="gt_row gt_center">-0.002, 0.000</td>
-<td class="gt_row gt_center">0.016</td></tr>
-  </tbody>
-  
-  <tfoot>
-    <tr class="gt_footnotes">
-      <td colspan="4">
-        <p class="gt_footnote">
-          <sup class="gt_footnote_marks">
-            <em>1</em>
-          </sup>
-           
-          CI = Confidence Interval
-          <br />
-        </p>
-      </td>
-    </tr>
-  </tfoot>
-</table>
-</div>
 ```
 
 
@@ -1728,75 +1030,139 @@ p1+p2
 
 
 ```r
-# m1.gam <- gam(adjusted_flow ~
-#             s(ewood_precip, bs = "ts") +
-#             s(tavg, bs = "ts") +
-#             s(doy, bs = "cc") +
-#             s(wetness, bs = "ts") +
-#             s(et, bs = "ts") +
-#             te(ewood_precip, tavg) +
-#             te(ewood_precip, wetness) +
-#             te(ewood_precip, et) +
-#             te(tavg, wetness) +
-#             te(tavg, et) +
-#             te(wetness, et),
-#           data = df_16396,
-#           family = scat(link = "log"),
-#           method = "REML")
-# flextable::as_flextable(m1.gam)
+m1.gam <- gam(adjusted_flow ~
+            s(ewood_precip, bs = "ts") +
+            s(tavg, bs = "ts") +
+            s(doy, bs = "cc") +
+            s(wetness, bs = "ts") +
+            s(et, bs = "ts") +
+            te(ewood_precip, tavg) +
+            te(ewood_precip, wetness) +
+            te(ewood_precip, et) +
+            te(tavg, wetness) +
+            te(tavg, et) +
+            te(wetness, et),
+          data = df_16396,
+          family = scat(link = "log"),
+          method = "REML")
+flextable::as_flextable(m1.gam) %>%
+  flextable::set_caption("Summary of GAMcoefficients at SWQM 16396")
+```
+
+```{=html}
+<template id="084ca5c6-e286-4743-b0f3-2f04c484ca0e"><style>
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-dcb68fde{border-collapse:collapse;}.cl-dca83a24{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dca83a25{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dca86120{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dca86121{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dca86122{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dca8af36{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af37{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af38{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af39{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3a{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3b{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3c{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3d{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3e{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af3f{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8af40{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d63c{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d63d{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d63e{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d63f{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d640{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d641{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d642{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d643{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d644{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d645{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8d646{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd4c{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd4d{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd4e{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd4f{width:144pt;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd50{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd51{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd52{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd53{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd54{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd55{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca8fd56{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92452{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92453{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92454{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92455{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92456{width:66.4pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92457{width:68.2pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92458{width:69.5pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca92459{width:148.9pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dca9245a{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(102, 102, 102, 1.00);border-top: 1pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-dcb68fde'>
+```
+<caption class="Table Caption">(\#tab:gamresults)Summary of GAMcoefficients at SWQM 16396</caption>
+```{=html}
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-dca92455"><p class="cl-dca86120"><span class="cl-dca83a24">Component</span></p></td><td class="cl-dca92459"><p class="cl-dca86120"><span class="cl-dca83a24">Term</span></p></td><td class="cl-dca92456"><p class="cl-dca86121"><span class="cl-dca83a24">Estimate</span></p></td><td class="cl-dca92457"><p class="cl-dca86121"><span class="cl-dca83a24">Std Error</span></p></td><td class="cl-dca92458"><p class="cl-dca86121"><span class="cl-dca83a24">t-value</span></p></td><td class="cl-dca9245a"><p class="cl-dca86121"><span class="cl-dca83a24">p-value</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3a"><p class="cl-dca86122"><span class="cl-dca83a25">A. parametric coefficients</span></p></td><td class="cl-dca8af37"><p class="cl-dca86120"><span class="cl-dca83a25">(Intercept)</span></p></td><td class="cl-dca8af36"><p class="cl-dca86121"><span class="cl-dca83a25">1.788</span></p></td><td class="cl-dca8af3b"><p class="cl-dca86121"><span class="cl-dca83a25">0.015</span></p></td><td class="cl-dca8af38"><p class="cl-dca86121"><span class="cl-dca83a25">119.172</span></p></td><td class="cl-dca8af39"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8fd4c"><p class="cl-dca86122"><span class="cl-dca83a24">Component</span></p></td><td class="cl-dca8d643"><p class="cl-dca86120"><span class="cl-dca83a24">Term</span></p></td><td class="cl-dca8d646"><p class="cl-dca86121"><span class="cl-dca83a24">edf</span></p></td><td class="cl-dca8d645"><p class="cl-dca86121"><span class="cl-dca83a24">Ref. df</span></p></td><td class="cl-dca8d644"><p class="cl-dca86121"><span class="cl-dca83a24">F-value</span></p></td><td class="cl-dca8fd4d"><p class="cl-dca86121"><span class="cl-dca83a24">p-value</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  rowspan="11"class="cl-dca8fd4f"><p class="cl-dca86122"><span class="cl-dca83a25">B. smooth terms</span></p></td><td class="cl-dca8fd51"><p class="cl-dca86120"><span class="cl-dca83a25">s(ewood_precip)</span></p></td><td class="cl-dca8fd50"><p class="cl-dca86121"><span class="cl-dca83a25">0.820</span></p></td><td class="cl-dca8fd4e"><p class="cl-dca86121"><span class="cl-dca83a25">9.000</span></p></td><td class="cl-dca8fd52"><p class="cl-dca86121"><span class="cl-dca83a25">2.393</span></p></td><td class="cl-dca8fd53"><p class="cl-dca86121"><span class="cl-dca83a25">**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">s(tavg)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">4.792</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">9.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">20.066</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">s(doy)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">7.541</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">8.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">480.332</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">s(wetness)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">6.463</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">9.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">59.782</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">s(et)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">6.229</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">9.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">43.229</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">te(ewood_precip,tavg)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">7.965</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">9.054</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">35.044</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">te(ewood_precip,wetness)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">13.295</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">19.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">641.653</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">te(ewood_precip,et)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">13.457</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">19.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">1,574.849</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">te(tavg,wetness)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">11.774</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">17.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">381.968</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8af3c"><p class="cl-dca86120"><span class="cl-dca83a25">te(tavg,et)</span></p></td><td class="cl-dca8af3f"><p class="cl-dca86121"><span class="cl-dca83a25">1.906</span></p></td><td class="cl-dca8af40"><p class="cl-dca86121"><span class="cl-dca83a25">17.000</span></p></td><td class="cl-dca8d63c"><p class="cl-dca86121"><span class="cl-dca83a25">52.158</span></p></td><td class="cl-dca8af3e"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-dca8d642"><p class="cl-dca86120"><span class="cl-dca83a25">te(wetness,et)</span></p></td><td class="cl-dca8d63f"><p class="cl-dca86121"><span class="cl-dca83a25">10.493</span></p></td><td class="cl-dca8d641"><p class="cl-dca86121"><span class="cl-dca83a25">20.000</span></p></td><td class="cl-dca8d63e"><p class="cl-dca86121"><span class="cl-dca83a25">707.848</span></p></td><td class="cl-dca8d640"><p class="cl-dca86121"><span class="cl-dca83a25">***</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-dca8fd55"><p class="cl-dca86120"><span class="cl-dca83a25">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05 &lt; '.' &lt; 0.1 &lt; '' &lt; 1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-dca8fd55"><p class="cl-dca86120"><span class="cl-dca83a25"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-dca8fd55"><p class="cl-dca86120"><span class="cl-dca83a25">Adjusted R-squared: 0.464, Deviance explained 0.644</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-dca8fd55"><p class="cl-dca86120"><span class="cl-dca83a25">-REML : 929.054, Scale est: 1.000, N: 312</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="4c447e6e-d01d-496f-8c63-0d72ebe40773"></div>
+<script>
+var dest = document.getElementById("4c447e6e-d01d-496f-8c63-0d72ebe40773");
+var template = document.getElementById("084ca5c6-e286-4743-b0f3-2f04c484ca0e");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
 ```
 
 
 
 ```r
 ##get model fits and confidence intervals
-# gam_fam <- family(m1.gam)
-# ilink <- gam_fam$linkinv
-# 
-# df_16396 %>%
-#     bind_cols(
-#     as_tibble(predict(m1.gam, df_16396, se.fit = TRUE)) %>%
-#       mutate(response = ilink(fit),
-#              upr_ci = ilink(fit + (2*se.fit)),
-#              lwr_ci = ilink(fit - (2*se.fit))) %>%
-#       dplyr::select(response, upr_ci, lwr_ci)
-#     ) -> df_16396_gam
-# 
-# 
-# 
-# 
-# 
-# df_16396_gam %>%
-#   ggplot() +
-#   geom_point(aes(response, adjusted_flow, 
-#                  color = "GAM Estimates against Naturalized Flow"),
-#              alpha = 0.4) +
-#   geom_smooth(aes(response, adjusted_flow, 
-#                   color = "GAM Estimates against Naturalized Flow"),
-#               method = "lm", se = FALSE) +
-#   geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
-#   scale_x_log10() + scale_y_log10() +
-#   labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
-#   guides(color = guide_legend(""), linetype = guide_legend("")) +
-#   coord_equal() +
-#   theme_ms() +
-#   theme(legend.margin = margin(0,0,0,0),
-#         legend.box = "vertical",
-#         legend.box.margin = margin(0,0,0,0),
-#         legend.direction = "vertical")-> p1
-# 
-# df_16396_gam %>%
-#   ggplot() +
-#   geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
-#   geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"),
-#             alpha = 0.4) +
-#   labs(x = "Date", y = "Mean Daily Flow [cfs]") +
-#   theme_ms() +
-#   theme(legend.title = element_blank(),
-#         legend.direction = "vertical") -> p2
-# 
-# p1+p2
+gam_fam <- family(m1.gam)
+ilink <- gam_fam$linkinv
+
+df_16396 %>%
+    bind_cols(
+    as_tibble(predict(m1.gam, df_16396, se.fit = TRUE)) %>%
+      mutate(response = ilink(fit),
+             upr_ci = ilink(fit + (2*se.fit)),
+             lwr_ci = ilink(fit - (2*se.fit))) %>%
+      dplyr::select(response, upr_ci, lwr_ci)
+    ) -> df_16396_gam
+
+
+
+
+
+df_16396_gam %>%
+  ggplot() +
+  geom_point(aes(response, adjusted_flow,
+                 color = "GAM Estimates against Naturalized Flow"),
+             alpha = 0.4) +
+  geom_smooth(aes(response, adjusted_flow,
+                  color = "GAM Estimates against Naturalized Flow"),
+              method = "lm", se = FALSE) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  coord_equal() +
+  theme_ms() +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical")-> p1
+
+df_16396_gam %>%
+  ggplot() +
+  geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"),
+            alpha = 0.4) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() +
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p2
+
+p1+p2
 ```
+
+<div class="figure">
+<img src="document_files/figure-html/gamplots-1.png" alt="GAM estimated streamflows at SWQM 16396 plotted against measured streamflows and over time." width="100%" />
+<p class="caption">(\#fig:gamplots)GAM estimated streamflows at SWQM 16396 plotted against measured streamflows and over time.</p>
+</div>
 
 
 

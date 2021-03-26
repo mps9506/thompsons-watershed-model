@@ -12,4 +12,7 @@ eq:gamstructure
 fig:dar16396results
 tab:lrresults
 fig:unnamed-chunk-4
+tab:glmresults
 fig:glmplots
+tab:gamresults
+fig:gamplots

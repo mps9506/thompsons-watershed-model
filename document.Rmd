@@ -732,20 +732,23 @@ m1.lm <- lm(log_Q ~ Flow_08065800 +
             data = df_16396_lm)
 
 
-tbl_regression(m1.lm,
-               intercept = TRUE,
-               estimate_fun = ~style_sigfig(.x, digits = 3),
-               label = list(Flow_08065800 ~ "Q at 08065800",
-                            Flow_08109800 ~ "Q at 08109800",
-                            Flow_08110100 ~ "Q at 08110100",
-                            lag_Flow_08065800 ~ "1 Day Lagged Q at 08065800",
-                            lag_Flow_08109800 ~ "1 Day Lagged Q at 08109800",
-                            lag_Flow_08110100 ~ "1 Day Lagged Q at 08110100")) %>%
-  modify_header(update =list(
-    label ~"**Variable**",
-    estimate ~ "**Coefficient**")) %>%
-  add_glance_source_note(include = c(r.squared, statistic, df)) %>%
-  modify_caption("Summary of linear regression model coefficients at SWQM 16396")
+# tbl_regression(m1.lm,
+#                intercept = TRUE,
+#                estimate_fun = ~style_sigfig(.x, digits = 3),
+#                label = list(Flow_08065800 ~ "Q at 08065800",
+#                             Flow_08109800 ~ "Q at 08109800",
+#                             Flow_08110100 ~ "Q at 08110100",
+#                             lag_Flow_08065800 ~ "1 Day Lagged Q at 08065800",
+#                             lag_Flow_08109800 ~ "1 Day Lagged Q at 08109800",
+#                             lag_Flow_08110100 ~ "1 Day Lagged Q at 08110100")) %>%
+#   modify_header(update =list(
+#     label ~"**Variable**",
+#     estimate ~ "**Coefficient**")) %>%
+#   add_glance_source_note(include = c(r.squared, statistic, df)) %>%
+#   modify_caption("Summary of linear regression model coefficients at SWQM 16396")
+
+flextable::as_flextable(m1.lm) %>%
+  set_caption("Summary of linear regression coefficients at SWQM 16396")
   
 ```
 
@@ -802,9 +805,11 @@ m1.glm <- gam(adjusted_flow ~
                 wetness:et,
           data = df_16396,
           family = scat(link = "log"))
-tbl_regression(m1.glm,
-               intercept = TRUE,
-               estimate_fun = ~style_sigfig(.x, digits = 3))
+# tbl_regression(m1.glm,
+#                intercept = TRUE,
+#                estimate_fun = ~style_sigfig(.x, digits = 3))
+flextable::as_flextable(m1.glm) %>%
+  flextable::set_caption("Summary of GLM coefficients at SWQM 16396")
 
 ```
 
@@ -859,74 +864,75 @@ p1+p2
 
 ```{r gamresults, message=FALSE, warning=FALSE,}
 
-# m1.gam <- gam(adjusted_flow ~
-#             s(ewood_precip, bs = "ts") +
-#             s(tavg, bs = "ts") +
-#             s(doy, bs = "cc") +
-#             s(wetness, bs = "ts") +
-#             s(et, bs = "ts") +
-#             te(ewood_precip, tavg) +
-#             te(ewood_precip, wetness) +
-#             te(ewood_precip, et) +
-#             te(tavg, wetness) +
-#             te(tavg, et) +
-#             te(wetness, et),
-#           data = df_16396,
-#           family = scat(link = "log"),
-#           method = "REML")
-# flextable::as_flextable(m1.gam)
+m1.gam <- gam(adjusted_flow ~
+            s(ewood_precip, bs = "ts") +
+            s(tavg, bs = "ts") +
+            s(doy, bs = "cc") +
+            s(wetness, bs = "ts") +
+            s(et, bs = "ts") +
+            te(ewood_precip, tavg) +
+            te(ewood_precip, wetness) +
+            te(ewood_precip, et) +
+            te(tavg, wetness) +
+            te(tavg, et) +
+            te(wetness, et),
+          data = df_16396,
+          family = scat(link = "log"),
+          method = "REML")
+flextable::as_flextable(m1.gam) %>%
+  flextable::set_caption("Summary of GAMcoefficients at SWQM 16396")
 ```
 
 
 ```{r gamplots, message=FALSE, warning=FALSE, out.width="100%", fig.asp=1, fig.cap="GAM estimated streamflows at SWQM 16396 plotted against measured streamflows and over time."}
 
 ##get model fits and confidence intervals
-# gam_fam <- family(m1.gam)
-# ilink <- gam_fam$linkinv
-# 
-# df_16396 %>%
-#     bind_cols(
-#     as_tibble(predict(m1.gam, df_16396, se.fit = TRUE)) %>%
-#       mutate(response = ilink(fit),
-#              upr_ci = ilink(fit + (2*se.fit)),
-#              lwr_ci = ilink(fit - (2*se.fit))) %>%
-#       dplyr::select(response, upr_ci, lwr_ci)
-#     ) -> df_16396_gam
-# 
-# 
-# 
-# 
-# 
-# df_16396_gam %>%
-#   ggplot() +
-#   geom_point(aes(response, adjusted_flow, 
-#                  color = "GAM Estimates against Naturalized Flow"),
-#              alpha = 0.4) +
-#   geom_smooth(aes(response, adjusted_flow, 
-#                   color = "GAM Estimates against Naturalized Flow"),
-#               method = "lm", se = FALSE) +
-#   geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
-#   scale_x_log10() + scale_y_log10() +
-#   labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
-#   guides(color = guide_legend(""), linetype = guide_legend("")) +
-#   coord_equal() +
-#   theme_ms() +
-#   theme(legend.margin = margin(0,0,0,0),
-#         legend.box = "vertical",
-#         legend.box.margin = margin(0,0,0,0),
-#         legend.direction = "vertical")-> p1
-# 
-# df_16396_gam %>%
-#   ggplot() +
-#   geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
-#   geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"),
-#             alpha = 0.4) +
-#   labs(x = "Date", y = "Mean Daily Flow [cfs]") +
-#   theme_ms() +
-#   theme(legend.title = element_blank(),
-#         legend.direction = "vertical") -> p2
-# 
-# p1+p2
+gam_fam <- family(m1.gam)
+ilink <- gam_fam$linkinv
+
+df_16396 %>%
+    bind_cols(
+    as_tibble(predict(m1.gam, df_16396, se.fit = TRUE)) %>%
+      mutate(response = ilink(fit),
+             upr_ci = ilink(fit + (2*se.fit)),
+             lwr_ci = ilink(fit - (2*se.fit))) %>%
+      dplyr::select(response, upr_ci, lwr_ci)
+    ) -> df_16396_gam
+
+
+
+
+
+df_16396_gam %>%
+  ggplot() +
+  geom_point(aes(response, adjusted_flow,
+                 color = "GAM Estimates against Naturalized Flow"),
+             alpha = 0.4) +
+  geom_smooth(aes(response, adjusted_flow,
+                  color = "GAM Estimates against Naturalized Flow"),
+              method = "lm", se = FALSE) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  coord_equal() +
+  theme_ms() +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical")-> p1
+
+df_16396_gam %>%
+  ggplot() +
+  geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"),
+            alpha = 0.4) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() +
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p2
+
+p1+p2
 
 ```
 
