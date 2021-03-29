@@ -547,19 +547,19 @@ hg_plot1 / hg_plot2 / hg_plot3
 
 GLMs and GAMs relied on local precipitation and temperature data to estimate streamflows at each SWQM station (Figure \@ref(fig:precipsum); Figure \@ref(fig:temp)). The GLM was of form:
 
-\begin{equation}
-Q = P + T + DOY + P_{sum,3} + T_{mean,5} + (P\times T) + (P \times P_{sum,3}) + (P \times T_{mean,5}) + (T \times P_{sum,3}) + (T \times T_{mean,5}) + (P_{sum,3} \times T_{mean,5})
+\begin{multline}
+Q = P + T + DOY + P_{sum,3} + T_{mean,5} + (P\times T) + (P \times P_{sum,3})\\ + (P \times T_{mean,5}) + (T \times P_{sum,3})\\ + (T \times T_{mean,5}) + (P_{sum,3} \times T_{mean,5})
   (\#eq:glmstructure)
-\end{equation}
+\end{multline}
 
 where $P$ is total daily precipitation and $T$ is mean daily temperature, and are assumed to be the main forcing variables influencing streamflow. $DOY$ is day of the year and included as a seasonal predictor. $P_{sum,3}$ is the rolling 3-day sum rainfall and included as an indicator of wetness in the watershed. $T_{mean,5}$ is the rolling 5-day mean temperature and included as an indicator of seasonal temperature condition that is less daily variance than $T$ and maybe an improved indicator of potential evapotransportation conditions. The GLM error structure was fit with a scaled t distribution and a log link function.
 
 The GAM included the same variables but with smoothing functions:
 
-\begin{equation}
-Q = f(P) + f(T) + f(DOY) + f(P_{sum,3}) + f(T_{mean,5}) + f(P,T) + f(P, P_{sum,3}) + f(P,T_{mean,5}) + f(T,P_{sum,3}) + (T,T_{mean,5}) + f(P_{sum,3},T_{mean,5})
+\begin{multline}
+Q = f(P) + f(T) + f(DOY) + f(P_{sum,3}) + f(T_{mean,5})\\ + f(P,T) + f(P, P_{sum,3}) + f(P,T_{mean,5})\\ + f(T,P_{sum,3}) + (T,T_{mean,5}) + f(P_{sum,3},T_{mean,5})
   (\#eq:gamstructure)
-\end{equation}
+\end{multline}
 
 where $f()$ is the smoothing function. Where a single covariate is smoothed, a thin plate regression spline was fit to the data using restricted maximum likelihood to estimated the automatically select the optimal smoothing parameters. For smoothing functions applied to two parameters, a tensor product smooth function was applied. The GAM error structure was fit using the scaled t distribution and a log link function.
 
