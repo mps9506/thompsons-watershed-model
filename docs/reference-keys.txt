@@ -10,9 +10,13 @@ fig:meandailyresults
 eq:glmstructure
 eq:gamstructure
 fig:dar16396results
-tab:lrresults
+fig:dar16397results
+fig:dar16882results
+tab:lrresults16396
+tab:lrresults16397
+tab:lrresults16882
 fig:unnamed-chunk-4
-tab:glmresults
-fig:glmplots
-tab:gamresults
+tab:gamresults16396
+tab:gamresults16397
+tab:gamresults16882
 fig:gamplots

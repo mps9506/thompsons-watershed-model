@@ -72,6 +72,8 @@ theme_ms <- function(...) {
             colour = NA), 
           panel.border = element_rect(fill = NA, 
             colour = "grey20"),
+          plot.title = element_text(size = 11,
+                                    face = "plain"),
           ...)
 }
 
@@ -218,50 +220,23 @@ easterwood_tmax <- read_csv("Data/noaa_precip/easterwood_tmax.csv",
   mutate(value =  set_units(value/10, "°C")) %>%
   select(date, datatype, station, value)
 
-easterwood_tavg <- read_csv("Data/noaa_precip/easterwood_tavg.csv",
-                               col_types = cols(
-                                 date = col_datetime(format = ""),
-                                 datatype = col_character(),
-                                 station = col_character(),
-                                 value = col_double(),
-                                 fl_m = col_character(),
-                                 fl_q = col_character(),
-                                 fl_so = col_character(),
-                                 fl_t = col_character(),
-                                 units = col_character())) %>%
-  mutate(value =  set_units(value/10, "°C")) %>%
-  select(date, datatype, station, value)
-
 easterwood_tmax %>%
-    mutate(date = as.Date(date),
+  mutate(date = as.Date(date),
          value = as.numeric(value)) %>%
-  dplyr::rename(tmax = value) %>%
-  left_join(easterwood_tavg %>% 
-               mutate(date = as.Date(date),
-                      value = as.numeric(value)) %>%
-              dplyr::rename(tavg = value), by = c("date"="date")) -> easterwood_temps
-
-easterwood_temps %>%
-  pivot_longer(c(tmax, tavg), 
-               names_to = "stat",
-               values_to = "value") %>%
   ggplot() +
-  geom_step(aes(date, value, color = stat), alpha = 0.5) +
-  labs(y = "Daily Max Temperature [°C]",
+  geom_step(aes(date, value), alpha = 0.5) +
+  labs(y = "Daily Maximum Temperature [°C]",
        x = "Date") +
   theme_ms(plot.margin = margin(10,0,10,10),
            panel.spacing = unit(0, "lines"),
            panel.spacing.x = unit(0, "lines"),
            panel.spacing.y = unit(2, "lines")) -> p1
 
-easterwood_temps %>%
-  pivot_longer(c(tmax, tavg), 
-               names_to = "stat",
-               values_to = "value") %>%
+easterwood_tmax %>%
+  mutate(date = as.Date(date),
+         value = as.numeric(value)) %>%
   ggplot() +
-  geom_density(aes(value,
-                   fill = stat,
-                   color = stat), 
+  geom_density(aes(value), 
                  binwidth = 1.1,
                  alpha = 0.5) +
   coord_flip() +
@@ -360,8 +335,10 @@ df %>%
   left_join(easterwood_precip, by = c("date" = "date")) %>%
   mutate(value = as.numeric(value)) %>%
   dplyr::rename(ewood_precip = value) %>%
-  left_join(easterwood_temps, by = c("date" = "date")) %>%
-  dplyr::select(Site, date, mean_daily, ewood_precip, tmax, tavg) %>%
+  left_join(easterwood_tmax, by = c("date" = "date")) %>%
+  mutate(value = as.numeric(value)) %>%
+  dplyr::rename(ewood_tmax = value) %>%
+  dplyr::select(Site, date, mean_daily, ewood_precip, ewood_tmax) %>%
   left_join(wwtf %>% pivot_wider(id_cols = date, names_from = npdes_id, values_from = cfs),
             by = c("date" = "date")) %>%
   ## remove WWTF influence from discharge record
@@ -572,7 +549,8 @@ Performance of predicted streamflows over the period of record for each method w
 
 ```{r message=FALSE, warning=FALSE}
 ## create a model df for 16396
-## additional variable = 
+## additional variables = 
+## lagPrecip = 1 day lag precipitation
 ## wetness index = 3 day total precip
 ## ET index = 5 day avg tmax
 
@@ -582,7 +560,8 @@ df %>%
   arrange(date) -> df_16396
 
 df_16396 %>%
-  mutate(wetness = map(row_number(.$date),
+  mutate(lagPrecip = lag(ewood_precip),
+         wetness = map(row_number(.$date),
                     ~{if(.x - 1 <= 0) {df_16396$ewood_precip[.x]}
                       if(.x - 2 <= 0) {sum(df_16396$ewood_precip[.x],
                                            df_16396$ewood_precip[.x-1])}
@@ -595,29 +574,127 @@ df_16396 %>%
                         ) 
                       }}),
          et = map(row_number(.$date),
-                    ~{if(.x - 1 <= 0) {df_16396$tavg[.x]}
-                      if(.x - 2 <= 0) {df_16396$tavg[.x-1]}
-                      if(.x - 3 <= 0) { mean(c(df_16396$tavg[.x-1],
-                                            df_16396$tavg[.x-2]),
+                    ~{if(.x - 1 <= 0) {df_16396$ewood_tmax[.x]}
+                      if(.x - 2 <= 0) {df_16396$ewood_tmax[.x-1]}
+                      if(.x - 3 <= 0) { mean(c(df_16396$ewood_tmax[.x-1],
+                                            df_16396$ewood_tmax[.x-2]),
                                             na.rm = TRUE)}
-                      if(.x - 4 <= 0) { mean(c(df_16396$tavg[.x-1],
-                                            df_16396$tavg[.x-2],
-                                            df_16396$tavg[.x-3]),
+                      if(.x - 4 <= 0) { mean(c(df_16396$ewood_tmax[.x-1],
+                                            df_16396$ewood_tmax[.x-2],
+                                            df_16396$ewood_tmax[.x-3]),
                                             na.rm = TRUE)}
-                      if(.x - 5 <= 0) { mean(c(df_16396$tavg[.x-1],
-                                            df_16396$tavg[.x-2],
-                                            df_16396$tavg[.x-3],
-                                            df_16396$tavg[.x-4]),
+                      if(.x - 5 <= 0) { mean(c(df_16396$ewood_tmax[.x-1],
+                                            df_16396$ewood_tmax[.x-2],
+                                            df_16396$ewood_tmax[.x-3],
+                                            df_16396$ewood_tmax[.x-4]),
                                             na.rm = TRUE)}
-                      mean(c(df_16396$tavg[.x-1],
-                        df_16396$tavg[.x-2],
-                        df_16396$tavg[.x-3],
-                        df_16396$tavg[.x-4],
-                        df_16396$tavg[.x-5]),
+                      mean(c(df_16396$ewood_tmax[.x-1],
+                        df_16396$ewood_tmax[.x-2],
+                        df_16396$ewood_tmax[.x-3],
+                        df_16396$ewood_tmax[.x-4],
+                        df_16396$ewood_tmax[.x-5]),
                         na.rm = TRUE)})) %>%
   unnest(c(wetness, et)) %>%
   dplyr::filter(!is.na(mean_daily)) -> df_16396
 
+
+## create a model df for 16397
+## additional variable = 
+## wetness index = 3 day total precip
+## ET index = 5 day avg tmax
+
+df %>%
+  dplyr::filter(Site == "16397") %>%
+  arrange(date) -> df_16397
+
+df_16397 %>%
+  mutate(lagPrecip = lag(ewood_precip),
+         wetness = map(row_number(.$date),
+                    ~{if(.x - 1 <= 0) {df_16397$ewood_precip[.x]}
+                      if(.x - 2 <= 0) {sum(df_16397$ewood_precip[.x],
+                                           df_16397$ewood_precip[.x-1])}
+                      if(.x - 2 > 0) {
+                       sum(
+                        df_16397$ewood_precip[.x],
+                        df_16397$ewood_precip[.x-1],
+                        df_16397$ewood_precip[.x-2],
+                        na.rm = TRUE
+                        ) 
+                      }}),
+         et = map(row_number(.$date),
+                    ~{if(.x - 1 <= 0) {df_16397$ewood_tmax[.x]}
+                      if(.x - 2 <= 0) {df_16397$ewood_tmax[.x-1]}
+                      if(.x - 3 <= 0) { mean(c(df_16397$ewood_tmax[.x-1],
+                                            df_16397$ewood_tmax[.x-2]),
+                                            na.rm = TRUE)}
+                      if(.x - 4 <= 0) { mean(c(df_16397$ewood_tmax[.x-1],
+                                            df_16397$ewood_tmax[.x-2],
+                                            df_16397$ewood_tmax[.x-3]),
+                                            na.rm = TRUE)}
+                      if(.x - 5 <= 0) { mean(c(df_16397$ewood_tmax[.x-1],
+                                            df_16397$ewood_tmax[.x-2],
+                                            df_16397$ewood_tmax[.x-3],
+                                            df_16397$ewood_tmax[.x-4]),
+                                            na.rm = TRUE)}
+                      mean(c(df_16397$ewood_tmax[.x-1],
+                        df_16397$ewood_tmax[.x-2],
+                        df_16397$ewood_tmax[.x-3],
+                        df_16397$ewood_tmax[.x-4],
+                        df_16397$ewood_tmax[.x-5]),
+                        na.rm = TRUE)})) %>%
+  unnest(c(wetness, et)) %>%
+  dplyr::filter(!is.na(mean_daily)) -> df_16397
+
+## create a model df for 16882
+## additional variable = 
+## wetness index = 3 day total precip
+## ET index = 5 day avg tmax
+
+df %>%
+  dplyr::filter(Site == "16882") %>%
+  arrange(date) -> df_16882
+
+df_16882 %>%
+  mutate(lagPrecip = lag(ewood_precip),
+         wetness = map(row_number(.$date),
+                    ~{if(.x - 1 <= 0) {df_16882$ewood_precip[.x]}
+                      if(.x - 2 <= 0) {sum(df_16882$ewood_precip[.x],
+                                           df_16882$ewood_precip[.x-1])}
+                      if(.x - 2 > 0) {
+                       sum(
+                        df_16882$ewood_precip[.x],
+                        df_16882$ewood_precip[.x-1],
+                        df_16882$ewood_precip[.x-2],
+                        na.rm = TRUE
+                        ) 
+                      }}),
+         et = map(row_number(.$date),
+                    ~{if(.x - 1 <= 0) {df_16882$ewood_tmax[.x]}
+                      if(.x - 2 <= 0) {df_16882$ewood_tmax[.x-1]}
+                      if(.x - 3 <= 0) { mean(c(df_16882$ewood_tmax[.x-1],
+                                            df_16882$ewood_tmax[.x-2]),
+                                            na.rm = TRUE)}
+                      if(.x - 4 <= 0) { mean(c(df_16882$ewood_tmax[.x-1],
+                                            df_16882$ewood_tmax[.x-2],
+                                            df_16882$ewood_tmax[.x-3]),
+                                            na.rm = TRUE)}
+                      if(.x - 5 <= 0) { mean(c(df_16882$ewood_tmax[.x-1],
+                                            df_16882$ewood_tmax[.x-2],
+                                            df_16882$ewood_tmax[.x-3],
+                                            df_16882$ewood_tmax[.x-4]),
+                                            na.rm = TRUE)}
+                      mean(c(df_16882$ewood_tmax[.x-1],
+                        df_16882$ewood_tmax[.x-2],
+                        df_16882$ewood_tmax[.x-3],
+                        df_16882$ewood_tmax[.x-4],
+                        df_16882$ewood_tmax[.x-5]),
+                        na.rm = TRUE)})) %>%
+  unnest(c(wetness, et)) %>%
+  dplyr::filter(!is.na(mean_daily)) %>%
+  mutate(non_zero = case_when(
+    adjusted_flow == 0 ~ 0,
+    adjusted_flow > 0 ~ 1
+  ))-> df_16882
 ```
 
 ### Statistical Information Transfer
@@ -658,6 +735,42 @@ df_16396 %>%
   dplyr::rename(DAR_Q_08110100 = Q,
                 Q_percentile_08110100 = Q_percentile,
                 exp_08110100 = exp) -> dar_results_16396
+
+df_16882 %>%
+  dplyr::select(Site, date, adjusted_flow) %>%
+  left_join(usgs_08065800, by = c("date" = "datetime")) %>%
+  dartx(Flow_08065800, 24.21/321) %>%
+  dplyr::rename(DAR_Q_08065800 = Q,
+                Q_percentile_08065800 = Q_percentile,
+                exp_08065800 = exp) %>%
+  left_join(usgs_08109800,  by = c("date" = "datetime")) %>%
+  dartx(Flow_08109800, 24.21/244) %>%
+  dplyr::rename(DAR_Q_08109800 = Q,
+                Q_percentile_08109800 = Q_percentile,
+                exp_08109800 = exp) %>%
+  left_join(usgs_08110100,  by = c("date" = "datetime")) %>%
+  dartx(Flow_08110100, 24.21/195) %>%
+  dplyr::rename(DAR_Q_08110100 = Q,
+                Q_percentile_08110100 = Q_percentile,
+                exp_08110100 = exp) -> dar_results_16882
+
+df_16397 %>%
+  dplyr::select(Site, date, adjusted_flow) %>%
+  left_join(usgs_08065800, by = c("date" = "datetime")) %>%
+  dartx(Flow_08065800, 10.03/321) %>%
+  dplyr::rename(DAR_Q_08065800 = Q,
+                Q_percentile_08065800 = Q_percentile,
+                exp_08065800 = exp) %>%
+  left_join(usgs_08109800,  by = c("date" = "datetime")) %>%
+  dartx(Flow_08109800, 10.03/244) %>%
+  dplyr::rename(DAR_Q_08109800 = Q,
+                Q_percentile_08109800 = Q_percentile,
+                exp_08109800 = exp) %>%
+  left_join(usgs_08110100,  by = c("date" = "datetime")) %>%
+  dartx(Flow_08110100, 10.03/195) %>%
+  dplyr::rename(DAR_Q_08110100 = Q,
+                Q_percentile_08110100 = Q_percentile,
+                exp_08110100 = exp) -> dar_results_16397
 ```
 
 ```{r dar16396results, out.width="100%", fig.asp=1.5, fig.cap="Estimated streamflows at SWQM 16396 using DAR at three USGS gages plotted against measured streamflows and over time."}
@@ -710,9 +823,108 @@ p1 + p2
 ```
 
 
+```{r dar16397results, out.width="100%", fig.asp=1.5, fig.cap="Estimated streamflows at SWQM 16397 using DAR at three USGS gages plotted against measured streamflows and over time."}
+dar_results_16397 %>%
+  dplyr::select(Site, date, adjusted_flow, DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100) %>%
+  pivot_longer(c(DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100),
+               names_to = "Source_Site",
+               values_to = "Estimated_Flow") %>%
+  mutate(Source_Site = case_when(
+    Source_Site == "DAR_Q_08065800" ~ "Estimated flow using USGS-08065800",
+    Source_Site == "DAR_Q_08109800" ~ "Estimated flow using USGS-08109800",
+    Source_Site == "DAR_Q_08110100" ~ "Estimated flow using USGS-08110100"
+  )) %>%
+  ggplot() +
+  geom_point(aes(Estimated_Flow, adjusted_flow, color = "DAR Estimates against Naturalized Flow"), alpha = 0.3) +
+  geom_smooth(aes(Estimated_Flow, adjusted_flow, color = "DAR Estimates against Naturalized Flow"), 
+              method = "lm", se = FALSE, alpha = 0.3) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  facet_wrap(~Source_Site, scales = "free", ncol = 1) +
+  scale_x_continuous(trans = "pseudo_log") + scale_y_continuous(trans = "pseudo_log") +
+  labs(x = "DAR Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  theme_ms() + 
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical") -> p1
+
+dar_results_16397 %>%
+  dplyr::select(Site, date, DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100) %>%
+  pivot_longer(c(DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100),
+               names_to = "Source_Site",
+               values_to = "Estimated_Flow") %>%
+  mutate(Source_Site = case_when(
+    Source_Site == "DAR_Q_08065800" ~ "Estimated flow using USGS-08065800",
+    Source_Site == "DAR_Q_08109800" ~ "Estimated flow using USGS-08109800",
+    Source_Site == "DAR_Q_08110100" ~ "Estimated flow using USGS-08110100"
+  )) %>%
+  ggplot() +
+  geom_line(aes(date, Estimated_Flow, color = "DAR Estimated Flow")) +
+  geom_line(data = dar_results_16397, aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16397"), alpha = 0.4) +
+  facet_wrap(~Source_Site, scales = "free_y", ncol = 1) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() + 
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p2
+
+p1 + p2
+
+```
+
+
+```{r dar16882results, out.width="100%", fig.asp=1.5, fig.cap="Estimated streamflows at SWQM 16882 using DAR at three USGS gages plotted against measured streamflows and over time."}
+dar_results_16882 %>%
+  dplyr::select(Site, date, adjusted_flow, DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100) %>%
+  pivot_longer(c(DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100),
+               names_to = "Source_Site",
+               values_to = "Estimated_Flow") %>%
+  mutate(Source_Site = case_when(
+    Source_Site == "DAR_Q_08065800" ~ "Estimated flow using USGS-08065800",
+    Source_Site == "DAR_Q_08109800" ~ "Estimated flow using USGS-08109800",
+    Source_Site == "DAR_Q_08110100" ~ "Estimated flow using USGS-08110100"
+  )) %>%
+  ggplot() +
+  geom_point(aes(Estimated_Flow, adjusted_flow, color = "DAR Estimates against Naturalized Flow"), alpha = 0.3) +
+  geom_smooth(aes(Estimated_Flow, adjusted_flow, color = "DAR Estimates against Naturalized Flow"), 
+              method = "lm", se = FALSE, alpha = 0.3) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  facet_wrap(~Source_Site, scales = "free", ncol = 1) +
+  scale_x_continuous(trans = "pseudo_log") + scale_y_continuous(trans = "pseudo_log") +
+  labs(x = "DAR Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  theme_ms() + 
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical") -> p1
+
+dar_results_16882 %>%
+  dplyr::select(Site, date, DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100) %>%
+  pivot_longer(c(DAR_Q_08065800, DAR_Q_08109800, DAR_Q_08110100),
+               names_to = "Source_Site",
+               values_to = "Estimated_Flow") %>%
+  mutate(Source_Site = case_when(
+    Source_Site == "DAR_Q_08065800" ~ "Estimated flow using USGS-08065800",
+    Source_Site == "DAR_Q_08109800" ~ "Estimated flow using USGS-08109800",
+    Source_Site == "DAR_Q_08110100" ~ "Estimated flow using USGS-08110100"
+  )) %>%
+  ggplot() +
+  geom_line(aes(date, Estimated_Flow, color = "DAR Estimated Flow")) +
+  geom_line(data = dar_results_16882, aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16882"), alpha = 0.4) +
+  facet_wrap(~Source_Site, scales = "free_y", ncol = 1) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() + 
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p2
+
+p1 + p2
+
+```
+
 **Linear Regression**
 
-```{r lrresults, message=FALSE, warning=FALSE}
+```{r lrresults16396, message=FALSE, warning=FALSE}
 df_16396 %>%
   dplyr::select(Site, date, adjusted_flow) %>%
   left_join(usgs_08065800, by = c("date" = "datetime")) %>%
@@ -732,32 +944,77 @@ m1.lm <- lm(log_Q ~ Flow_08065800 +
             data = df_16396_lm)
 
 
-# tbl_regression(m1.lm,
-#                intercept = TRUE,
-#                estimate_fun = ~style_sigfig(.x, digits = 3),
-#                label = list(Flow_08065800 ~ "Q at 08065800",
-#                             Flow_08109800 ~ "Q at 08109800",
-#                             Flow_08110100 ~ "Q at 08110100",
-#                             lag_Flow_08065800 ~ "1 Day Lagged Q at 08065800",
-#                             lag_Flow_08109800 ~ "1 Day Lagged Q at 08109800",
-#                             lag_Flow_08110100 ~ "1 Day Lagged Q at 08110100")) %>%
-#   modify_header(update =list(
-#     label ~"**Variable**",
-#     estimate ~ "**Coefficient**")) %>%
-#   add_glance_source_note(include = c(r.squared, statistic, df)) %>%
-#   modify_caption("Summary of linear regression model coefficients at SWQM 16396")
-
 flextable::as_flextable(m1.lm) %>%
   set_caption("Summary of linear regression coefficients at SWQM 16396")
   
 ```
 
+```{r lrresults16397, message=FALSE, warning=FALSE}
+df_16397 %>%
+  dplyr::select(Site, date, adjusted_flow) %>%
+  left_join(usgs_08065800, by = c("date" = "datetime")) %>%
+  left_join(usgs_08109800,  by = c("date" = "datetime")) %>%
+  left_join(usgs_08110100,  by = c("date" = "datetime")) %>%
+  mutate(lag_Flow_08065800 = lag(Flow_08065800),
+         lag_Flow_08109800 = lag(Flow_08109800),
+         lag_Flow_08110100 = lag(Flow_08110100),
+         log_Q = log1p(adjusted_flow)) -> df_16397_lm
+
+m2.lm <- lm(log_Q ~ Flow_08065800 + 
+              Flow_08109800 + 
+              Flow_08110100 + 
+              lag_Flow_08065800 + 
+              lag_Flow_08109800 + 
+              lag_Flow_08110100,
+            data = df_16397_lm)
 
 
-```{r message=FALSE, warning=FALSE, out.width="100%", fig.asp=1, fig.cap="Estimated streamflows at SWQM 16396 using linear regression plotted against measured streamflows and over time."}
+flextable::as_flextable(m2.lm) %>%
+  set_caption("Summary of linear regression coefficients at SWQM 16397")
+  
+```
+
+```{r lrresults16882, message=FALSE, warning=FALSE}
+df_16882 %>%
+  dplyr::select(Site, date, adjusted_flow) %>%
+  left_join(usgs_08065800, by = c("date" = "datetime")) %>%
+  left_join(usgs_08109800,  by = c("date" = "datetime")) %>%
+  left_join(usgs_08110100,  by = c("date" = "datetime")) %>%
+  mutate(lag_Flow_08065800 = lag(Flow_08065800),
+         lag_Flow_08109800 = lag(Flow_08109800),
+         lag_Flow_08110100 = lag(Flow_08110100),
+         log_Q = log1p(adjusted_flow)) -> df_16882_lm
+
+m3.lm <- lm(log_Q ~ Flow_08065800 + 
+              Flow_08109800 + 
+              Flow_08110100 + 
+              lag_Flow_08065800 + 
+              lag_Flow_08109800 + 
+              lag_Flow_08110100,
+            data = df_16882_lm)
+
+
+flextable::as_flextable(m3.lm) %>%
+  set_caption("Summary of linear regression coefficients at SWQM 16882")
+  
+```
+
+```{r message=FALSE, warning=FALSE, out.width="100%", fig.asp=1.5, fig.cap="Linear regression estimated mean daily streamflows plotted against measured mean daily streamflows and over time."}
+
 df_16396_lm %>%
   mutate(fits = as.numeric(predict(m1.lm, newdata = .))) %>%
-  mutate(fits = expm1(fits)) %>%
+  mutate(fits = expm1(fits)) -> df_16396_lm
+
+
+df_16397_lm %>%
+  mutate(fits = as.numeric(predict(m2.lm, newdata = .))) %>%
+  mutate(fits = expm1(fits)) -> df_16397_lm
+
+df_16882_lm %>%
+  mutate(fits = as.numeric(predict(m3.lm, newdata = .))) %>%
+  mutate(fits = expm1(fits)) -> df_16882_lm
+
+df_16396_lm %>%
   ggplot() +
   geom_point(aes(fits, adjusted_flow, color = "Regression Estimates against Naturalized Flow"),
              alpha =0.4) +
@@ -765,122 +1022,190 @@ df_16396_lm %>%
               method = "lm", se = FALSE) +
   geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
   scale_x_log10() + scale_y_log10() +
-  labs(x = "Regression Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  labs(x = "Regression Estimated Flow [cfs]", y = "Naturalized Flow [cfs]",
+       title = "SWQM-16396") +
   guides(color = guide_legend(""), linetype = guide_legend("")) +
   coord_equal() +
   theme_ms() +
   theme(legend.margin = margin(0,0,0,0),
         legend.box = "vertical",
         legend.box.margin = margin(0,0,0,0),
-        legend.direction = "vertical")-> p1
+        legend.direction = "vertical",
+        legend.position = "none")-> p1
 
 df_16396_lm %>%
-  mutate(fits = as.numeric(predict(m1.lm, newdata = .))) %>%
-  mutate(fits = expm1(fits)) %>%
   ggplot() +
   geom_line(aes(date, fits, color = "Linear Regression Estimated Flow")) +
   geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"), alpha = 0.4) +
   labs(x = "Date", y = "Mean Daily Flow [cfs]") +
   theme_ms() +
   theme(legend.title = element_blank(),
-        legend.direction = "vertical") -> p2
-
-p1 + p2
-```
+        legend.direction = "vertical",
+        legend.position = "none") -> p2
 
 
-**GLM**
-```{r glmresults, message=FALSE, warning=FALSE,}
-m1.glm <- gam(adjusted_flow ~
-                ewood_precip +
-                tavg +
-                doy +
-                wetness +
-                et +
-                ewood_precip:tavg +
-                ewood_precip:wetness +
-                ewood_precip:et +
-                tavg:wetness +
-                tavg:et +
-                wetness:et,
-          data = df_16396,
-          family = scat(link = "log"))
-# tbl_regression(m1.glm,
-#                intercept = TRUE,
-#                estimate_fun = ~style_sigfig(.x, digits = 3))
-flextable::as_flextable(m1.glm) %>%
-  flextable::set_caption("Summary of GLM coefficients at SWQM 16396")
-
-```
-
-```{r glmplots, message=FALSE, warning=FALSE, out.width="100%", fig.asp=1, fig.cap="GLM estimated streamflows at SWQM 16396 plotted against measured streamflows and over time."}
-##get model fits and confidence intervals
-glm_fam <- family(m1.glm)
-ilink <- glm_fam$linkinv
-
-df_16396 %>%
-  bind_cols(
-    as_tibble(predict(m1.glm, df_16396, se.fit = TRUE)) %>%
-      mutate(response = ilink(fit),
-             upr_ci = ilink(fit + (2*se.fit)),
-             lwr_ci = ilink(fit - (2*se.fit))) %>%
-      dplyr::select(response, upr_ci, lwr_ci)
-    ) -> df_16396_glm
-
-df_16396_glm %>%
+df_16397_lm %>%
   ggplot() +
-  geom_point(aes(response, adjusted_flow, 
-                 color = "GLM Estimates against Naturalized Flow"),
-             alpha = 0.4) +
-  geom_smooth(aes(response, adjusted_flow, 
-                  color = "GLM Estimates against Naturalized Flow"),
+  geom_point(aes(fits, adjusted_flow, color = "Regression Estimates against Naturalized Flow"),
+             alpha =0.4) +
+  geom_smooth(aes(fits, adjusted_flow, color = "Regression Estimates against Naturalized Flow"),
               method = "lm", se = FALSE) +
   geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
   scale_x_log10() + scale_y_log10() +
-  labs(x = "GLM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  labs(x = "Regression Estimated Flow [cfs]", y = "Naturalized Flow [cfs]",
+       title = "SWQM-16397") +
   guides(color = guide_legend(""), linetype = guide_legend("")) +
   coord_equal() +
   theme_ms() +
   theme(legend.margin = margin(0,0,0,0),
         legend.box = "vertical",
         legend.box.margin = margin(0,0,0,0),
-        legend.direction = "vertical")-> p1
+        legend.direction = "vertical",
+        legend.position = "none")-> p3
 
-df_16396_glm %>%
+df_16397_lm %>%
   ggplot() +
-  geom_line(aes(date, response, color =  "GLM Estimated Flow")) +
-  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16396"),
-            alpha = 0.4) +
+  geom_line(aes(date, fits, color = "Linear Regression Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16397"), alpha = 0.4) +
   labs(x = "Date", y = "Mean Daily Flow [cfs]") +
   theme_ms() +
   theme(legend.title = element_blank(),
-        legend.direction = "vertical") -> p2
+        legend.direction = "vertical",
+        legend.position = "none") -> p4
 
-p1+p2
+df_16882_lm %>%
+  ggplot() +
+  geom_point(aes(fits, adjusted_flow, color = "Regression Estimates against Naturalized Flow"),
+             alpha =0.4) +
+  geom_smooth(aes(fits, adjusted_flow, color = "Regression Estimates against Naturalized Flow"),
+              method = "lm", se = FALSE) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "Regression Estimated Flow [cfs]", y = "Naturalized Flow [cfs]",
+       title = "SWQM-16882") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  coord_equal() +
+  theme_ms() +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical")-> p5
+
+df_16882_lm %>%
+  ggplot() +
+  geom_line(aes(date, fits, color = "Linear Regression Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow"), alpha = 0.4) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() +
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p6
+
+(p1 + p2)/(p3 + p4)/(p5 + p6)
 ```
 
 
 **GAM**
 
-```{r gamresults, message=FALSE, warning=FALSE,}
+```{r gamresults16396, message=FALSE, warning=FALSE,}
 
 m1.gam <- gam(adjusted_flow ~
+            s(ewood_precip, bs = "ts", k = 5) +
+            s(ewood_tmax, bs = "ts", k = 5) +
+            s(lagPrecip, bs = "ts", k = 5) +
+            s(doy, bs = "cc", k = 8) +
+            s(wetness, bs = "ts", k = 5) +
+            s(et, bs = "ts", k = 5) +
+              ti(ewood_precip, lagPrecip, k = 5) +
+              ti(ewood_precip, ewood_tmax, k = 5) +
+              ti(ewood_precip, wetness, k = 5) +
+              ti(ewood_precip, et, k = 5) +
+              ti(ewood_tmax, wetness, k = 5) +
+              ti(ewood_tmax, et, k = 5) +
+              ti(wetness, et, k = 5),
+          data = df_16396,
+          select = TRUE,
+          family = scat(link = "log"),
+          method = "REML",
+          control = gam.control(nthreads = 2))
+flextable::as_flextable(m1.gam) %>%
+  flextable::set_caption("Summary of GAM coefficients at SWQM 16396")
+```
+
+
+```{r gamresults16397, message=FALSE, warning=FALSE}
+
+m2.gam <- gam(adjusted_flow ~
+            s(ewood_precip, bs = "ts", k = 5) +
+            s(ewood_tmax, bs = "ts", k = 5) +
+            s(lagPrecip, bs = "ts", k = 5) +
+            s(doy, bs = "cc", k = 8) +
+            s(wetness, bs = "ts", k = 5) +
+            s(et, bs = "ts", k = 5) +
+              ti(ewood_precip, lagPrecip, k = 5) +
+              ti(ewood_precip, ewood_tmax, k = 5) +
+              ti(ewood_precip, wetness, k = 5) +
+              ti(ewood_precip, et, k = 5) +
+              ti(ewood_tmax, wetness, k = 5) +
+              ti(ewood_tmax, et, k = 5) +
+              ti(wetness, et, k = 5),
+          data = df_16397,
+          select = TRUE,
+          family = scat(link = "log"),
+          method = "REML",
+          control = gam.control(nthreads = 2))
+flextable::as_flextable(m2.gam) %>%
+  flextable::set_caption("Summary of GAM coefficients at SWQM 16397")
+```
+
+
+```{r gamresults16882, message=FALSE, warning=FALSE}
+# we need a hurdle model here. We will fit logistic regression to predict 
+# the probabilty of a non-zero flow
+# and a scaled-t model with log link to predict the mean of the non-zero data 
+
+m3.gam <- gam(non_zero ~
             s(ewood_precip, bs = "ts") +
-            s(tavg, bs = "ts") +
+            s(ewood_tmax, bs = "ts") +
+            s(lagPrecip, bs = "ts") +
             s(doy, bs = "cc") +
             s(wetness, bs = "ts") +
             s(et, bs = "ts") +
-            te(ewood_precip, tavg) +
-            te(ewood_precip, wetness) +
-            te(ewood_precip, et) +
-            te(tavg, wetness) +
-            te(tavg, et) +
-            te(wetness, et),
-          data = df_16396,
+            ti(ewood_precip, ewood_tmax) +
+            ti(ewood_precip, wetness) +
+            ti(ewood_precip, et) +
+            ti(ewood_tmax, wetness) +
+            ti(ewood_tmax, et) +
+            ti(wetness, et),
+          data = df_16882,
+          select = TRUE,
+          family = binomial(),
+          method = "REML",
+          control = gam.control(nthreads = 2))
+
+m4.gam <- gam(adjusted_flow ~
+            #s(ewood_precip, bs = "ts", k = 5) +
+            #s(ewood_tmax, bs = "ts", k = 5) +
+            s(doy, bs = "cs", k = 6) +
+            s(lagPrecip, bs = "ts", k = 5) +
+            #s(wetness, bs = "ts", k = 4) +
+            #s(et, bs = "ts", k = 4) +
+            #te(ewood_precip, ewood_tmax, k = 8),
+            te(ewood_precip, wetness, k = 3)+
+            te(ewood_precip, et, k = 3) +
+            te(ewood_tmax, wetness, k = 3)+
+            te(ewood_tmax, et, k = 3) +
+            te(wetness, et, k = 3),
+          data = subset(df_16882, non_zero == 1),
+          select = TRUE,
           family = scat(link = "log"),
-          method = "REML")
-flextable::as_flextable(m1.gam) %>%
-  flextable::set_caption("Summary of GAMcoefficients at SWQM 16396")
+          method = "REML",
+          control = gam.control(nthreads = 2))
+#draw(m4.gam, n = 1000, dist = 2)
+
+flextable::as_flextable(m3.gam) %>%
+  flextable::set_caption("Summary of GAMcoefficients at SWQM 16882")
+flextable::as_flextable(m4.gam) %>%
+  flextable::set_caption("Summary of GAMcoefficients at SWQM 16882")
 ```
 
 
@@ -899,7 +1224,38 @@ df_16396 %>%
       dplyr::select(response, upr_ci, lwr_ci)
     ) -> df_16396_gam
 
+##get model fits and confidence intervals
+gam_fam <- family(m2.gam)
+ilink <- gam_fam$linkinv
 
+df_16397 %>%
+    bind_cols(
+    as_tibble(predict(m2.gam, df_16397, se.fit = TRUE)) %>%
+      mutate(response = ilink(fit),
+             upr_ci = ilink(fit + (2*se.fit)),
+             lwr_ci = ilink(fit - (2*se.fit))) %>%
+      dplyr::select(response, upr_ci, lwr_ci)
+    ) -> df_16397_gam
+
+
+##get model fits and confidence intervals
+gam_fam <- family(m3.gam)
+ilink <- gam_fam$linkinv
+
+df_16882 %>%
+    bind_cols(
+    as_tibble(predict(m3.gam, df_16882, se.fit = FALSE,
+                      type = "response"))) %>%
+  mutate(pred_zero = case_when(
+    value < 0.5 ~ 0,
+    value > 0.5 ~ 1)) %>%
+  bind_cols(
+    as_tibble(predict(m4.gam, df_16882, se.fit = FALSE,
+                      type = "response")) %>%
+      dplyr::rename(response = value)) %>%
+  mutate(response = case_when(
+    pred_zero == 0 ~ 0,
+    pred_zero != 0 ~ response)) -> df_16882_gam
 
 
 
@@ -915,12 +1271,12 @@ df_16396_gam %>%
   scale_x_log10() + scale_y_log10() +
   labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
   guides(color = guide_legend(""), linetype = guide_legend("")) +
-  coord_equal() +
   theme_ms() +
   theme(legend.margin = margin(0,0,0,0),
         legend.box = "vertical",
         legend.box.margin = margin(0,0,0,0),
-        legend.direction = "vertical")-> p1
+        legend.direction = "vertical",
+        legend.position = "none")-> p1
 
 df_16396_gam %>%
   ggplot() +
@@ -930,16 +1286,216 @@ df_16396_gam %>%
   labs(x = "Date", y = "Mean Daily Flow [cfs]") +
   theme_ms() +
   theme(legend.title = element_blank(),
-        legend.direction = "vertical") -> p2
+        legend.direction = "vertical",
+        legend.position = "none") -> p2
 
-p1+p2
 
+
+
+df_16397_gam %>%
+  ggplot() +
+  geom_point(aes(response, adjusted_flow,
+                 color = "GAM Estimates against Naturalized Flow"),
+             alpha = 0.4) +
+  geom_smooth(aes(response, adjusted_flow,
+                  color = "GAM Estimates against Naturalized Flow"),
+              method = "lm", se = FALSE) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  theme_ms() +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical",
+        legend.position = "none")-> p3
+
+df_16397_gam %>%
+  ggplot() +
+  geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow SWQM 16397"),
+            alpha = 0.4) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() +
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical",
+        legend.position = "none") -> p4
+
+
+df_16882_gam %>%
+  ggplot() +
+  geom_point(aes(response, adjusted_flow,
+                 color = "GAM Estimates against Naturalized Flow"),
+             alpha = 0.4) +
+  geom_smooth(aes(response, adjusted_flow,
+                  color = "GAM Estimates against Naturalized Flow"),
+              method = "lm", se = FALSE) +
+  geom_abline(aes(linetype = "1:1 Line", intercept = 0, slope = 1)) +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "GAM Estimated Flow [cfs]", y = "Naturalized Flow [cfs]") +
+  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  theme_ms() +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.box = "vertical",
+        legend.box.margin = margin(0,0,0,0),
+        legend.direction = "vertical")-> p5
+
+df_16882_gam %>%
+  ggplot() +
+  geom_line(aes(date, response, color =  "GAM Estimated Flow")) +
+  geom_line(aes(date, adjusted_flow, color = "Naturalized Flow"),
+            alpha = 0.4) +
+  labs(x = "Date", y = "Mean Daily Flow [cfs]") +
+  theme_ms() +
+  theme(legend.title = element_blank(),
+        legend.direction = "vertical") -> p6
+
+(p1+p2)/(p3 +p4)/(p5+p6)
 ```
 
 
 
 
+```{r}
+## calculate NSE and KGE as goodness of fit metrics
+## for each method
 
+##
+tibble(model = c("DAR_08065800", "DAR_08109800", "DAR_08110100",
+                 "Linear Regression",
+                 "GAM"),
+       'SWQM-16396' = c(
+         hydroGOF::NSE(dar_results_16396$DAR_Q_08065800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16396$DAR_Q_08109800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16396$DAR_Q_08110100, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::NSE(df_16396_lm$fits, df_16396_lm$adjusted_flow),
+         hydroGOF::NSE(as.numeric(df_16396_gam$response), df_16396_gam$adjusted_flow)),
+       'SWQM-16397' = c(
+         hydroGOF::NSE(dar_results_16397$DAR_Q_08065800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16397$DAR_Q_08109800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16397$DAR_Q_08110100, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::NSE(df_16397_lm$fits, df_16397_lm$adjusted_flow),
+         hydroGOF::NSE(as.numeric(df_16397_gam$response), df_16397_gam$adjusted_flow)),
+       'SWQM-16882' = c(
+         hydroGOF::NSE(dar_results_16882$DAR_Q_08065800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16882$DAR_Q_08109800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::NSE(dar_results_16882$DAR_Q_08110100, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::NSE(df_16882_lm$fits, df_16882_lm$adjusted_flow),
+         hydroGOF::NSE(as.numeric(df_16882_gam$response), df_16882_gam$adjusted_flow)))
+
+tibble(model = c("DAR_08065800", "DAR_08109800", "DAR_08110100",
+                 "Linear Regression",
+                 "GAM"),
+       'SWQM-16396' = c(
+         hydroGOF::KGE(dar_results_16396$DAR_Q_08065800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16396$DAR_Q_08109800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16396$DAR_Q_08110100, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::KGE(df_16396_lm$fits, df_16396_lm$adjusted_flow),
+         hydroGOF::KGE(as.numeric(df_16396_gam$response), df_16396_gam$adjusted_flow)),
+       'SWQM-16397' = c(
+         hydroGOF::KGE(dar_results_16397$DAR_Q_08065800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16397$DAR_Q_08109800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16397$DAR_Q_08110100, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::KGE(df_16397_lm$fits, df_16397_lm$adjusted_flow),
+         hydroGOF::KGE(as.numeric(df_16397_gam$response), df_16397_gam$adjusted_flow)),
+       'SWQM-16882' = c(
+         hydroGOF::KGE(dar_results_16882$DAR_Q_08065800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16882$DAR_Q_08109800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::KGE(dar_results_16882$DAR_Q_08110100, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::KGE(df_16882_lm$fits, df_16882_lm$adjusted_flow),
+         hydroGOF::KGE(as.numeric(df_16882_gam$response), df_16882_gam$adjusted_flow)))
+
+
+tibble(model = c("DAR_08065800", "DAR_08109800", "DAR_08110100",
+                 "Linear Regression",
+                 "GAM"),
+       'SWQM-16396' = c(
+         hydroGOF::pbias(dar_results_16396$DAR_Q_08065800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16396$DAR_Q_08109800, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16396$DAR_Q_08110100, as.numeric(dar_results_16396$adjusted_flow)),
+         hydroGOF::pbias(df_16396_lm$fits, df_16396_lm$adjusted_flow),
+         hydroGOF::pbias(as.numeric(df_16396_gam$response), df_16396_gam$adjusted_flow)),
+       'SWQM-16397' = c(
+         hydroGOF::pbias(dar_results_16397$DAR_Q_08065800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16397$DAR_Q_08109800, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16397$DAR_Q_08110100, as.numeric(dar_results_16397$adjusted_flow)),
+         hydroGOF::pbias(df_16397_lm$fits, df_16397_lm$adjusted_flow),
+         hydroGOF::pbias(as.numeric(df_16397_gam$response), df_16397_gam$adjusted_flow)),
+       'SWQM-16882' = c(
+         hydroGOF::pbias(dar_results_16882$DAR_Q_08065800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16882$DAR_Q_08109800, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::pbias(dar_results_16882$DAR_Q_08110100, as.numeric(dar_results_16882$adjusted_flow)),
+         hydroGOF::pbias(df_16882_lm$fits, df_16882_lm$adjusted_flow),
+         hydroGOF::pbias(as.numeric(df_16882_gam$response), df_16882_gam$adjusted_flow)))
+```
+
+## Model validation
+
+```{r}
+## use k-fold cross validation to estimate
+## how well the approach fits to ujnknown data
+## randomly split the data 80-20 to fit and validate the GAM.
+
+set.seed(123)
+
+df_16396 %>%
+  ## create a list of data resamples.
+  ## randomly splits the dataset into 80-20
+  ## n number of times
+  crossv_loo() %>%
+  mutate(model = map(train, ~gam(adjusted_flow~
+                                   s(ewood_precip, bs = "ts", k = 5) +
+                                   s(ewood_tmax, bs = "ts", k = 5) +
+                                   s(lagPrecip, bs = "ts", k = 5) +
+                                   s(doy, bs = "cc", k = 8) +
+                                   s(wetness, bs = "ts", k = 5) +
+                                   s(et, bs = "ts", k = 5) +
+                                   ti(ewood_precip, lagPrecip, k = 5) +
+                                   ti(ewood_precip, ewood_tmax, k = 5) +
+                                   ti(ewood_precip, wetness, k = 5) +
+                                   ti(ewood_precip, et, k = 5) +
+                                   ti(ewood_tmax, wetness, k = 5) +
+                                   ti(ewood_tmax, et, k = 5) +
+                                   ti(wetness, et, k = 5),
+                                  data = as.data.frame(.),
+                                  family = scat(link = "log"),
+                                  method = "REML",
+                                  control = gam.control(nthreads = 2))),
+         preds = map2(test,model, ~predict(.y, newdata = as.data.frame(.x),
+                                           type = "response")),
+         NSE = map2_dbl(test, preds, ~hydroGOF::NSE(as.numeric(as.data.frame(.x)$adjusted_flow),
+                                                    as.numeric(.y))),
+         KGE = map2_dbl(test, preds, ~hydroGOF::KGE(as.numeric(as.data.frame(.x)$adjusted_flow),
+                                                    as.numeric(.y))),
+         MAE = map2_dbl(test, preds, ~hydroGOF::mae(as.numeric(as.data.frame(.x)$adjusted_flow),
+                                                    as.numeric(.y))),
+         pbias = map2_dbl(test, preds, ~hydroGOF::pbias(as.numeric(as.data.frame(.x)$adjusted_flow),
+                                                    as.numeric(.y)))) -> df_16396_loocv
+  
+
+# 
+# m1.gam <- gam(adjusted_flow ~
+#             s(ewood_precip, bs = "ts", k = 5) +
+#             s(ewood_tmax, bs = "ts", k = 5) +
+#             s(lagPrecip, bs = "ts", k = 5) +
+#             s(doy, bs = "cc", k = 8) +
+#             s(wetness, bs = "ts", k = 5) +
+#             s(et, bs = "ts", k = 5) +
+#               ti(ewood_precip, lagPrecip, k = 5) +
+#               ti(ewood_precip, ewood_tmax, k = 5) +
+#               ti(ewood_precip, wetness, k = 5) +
+#               ti(ewood_precip, et, k = 5) +
+#               ti(ewood_tmax, wetness, k = 5) +
+#               ti(ewood_tmax, et, k = 5) +
+#               ti(wetness, et, k = 5),
+#           data = df_16396,
+#           select = TRUE,
+#           family = scat(link = "log"),
+#           method = "REML",
+#           control = gam.control(nthreads = 2))
+
+```
 
 
 

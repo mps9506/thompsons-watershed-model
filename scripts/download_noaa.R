@@ -2,7 +2,7 @@ library(rnoaa)
 library(rnoaahelpers)
 library(readr)
 
-start_date <- as.Date("2000-01-01")
+start_date <- as.Date("2010-01-01")
 end_date <- as.Date("2021-01-14")
 station_id <- "GHCND:USW00003904" ## COLLEGE STATION EASTERWOOD FIELD, TX US
 data_type_id <- "PRCP"
