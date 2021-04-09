@@ -1435,44 +1435,46 @@ tibble(model = c("DAR_08065800", "DAR_08109800", "DAR_08110100",
 ```{r}
 ## use k-fold cross validation to estimate
 ## how well the approach fits to ujnknown data
-## randomly split the data 80-20 to fit and validate the GAM.
+# ## randomly split the data 80-20 to fit and validate the GAM.
+# library(modelr)
+# set.seed(123)
+# 
+# df_16396 %>%
+#   ## create a list of data resamples.
+#   ## randomly splits the dataset into 80-20
+#   ## n number of times
+#   crossv_mc(100) %>%
+#   mutate(model = map(train, ~gam(adjusted_flow~
+#                                    s(ewood_precip, bs = "ts", k = 5) +
+#                                    s(ewood_tmax, bs = "ts", k = 5) +
+#                                    s(lagPrecip, bs = "ts", k = 5) +
+#                                    s(doy, bs = "cc", k = 8) +
+#                                    s(wetness, bs = "ts", k = 5) +
+#                                    s(et, bs = "ts", k = 5) +
+#                                    ti(ewood_precip, lagPrecip, k = 5) +
+#                                    ti(ewood_precip, ewood_tmax, k = 5) +
+#                                    ti(ewood_precip, wetness, k = 5) +
+#                                    ti(ewood_precip, et, k = 5) +
+#                                    ti(ewood_tmax, wetness, k = 5) +
+#                                    ti(ewood_tmax, et, k = 5) +
+#                                    ti(wetness, et, k = 5),
+#                                   data = as.data.frame(.),
+#                                   family = scat(link = "log"),
+#                                   method = "REML",
+#                                   control = gam.control(nthreads = 2))),
+#          preds = map2(test,model, ~predict(.y, newdata = as.data.frame(.x),
+#                                            type = "response")),
+#          NSE = map2_dbl(test, preds, ~hydroGOF::NSE(as.numeric(as.data.frame(.x)$adjusted_flow),
+#                                                     as.numeric(.y))),
+#          KGE = map2_dbl(test, preds, ~hydroGOF::KGE(as.numeric(as.data.frame(.x)$adjusted_flow),
+#                                                     as.numeric(.y))),
+#          MAE = map2_dbl(test, preds, ~hydroGOF::mae(as.numeric(as.data.frame(.x)$adjusted_flow),
+#                                                     as.numeric(.y))),
+#          pbias = map2_dbl(test, preds, ~hydroGOF::pbias(as.numeric(as.data.frame(.x)$adjusted_flow),
+#                                                     as.numeric(.y)))) -> df_16396_rep_cv
+#   
+# df_16396_rep_cv
 
-set.seed(123)
-
-df_16396 %>%
-  ## create a list of data resamples.
-  ## randomly splits the dataset into 80-20
-  ## n number of times
-  crossv_loo() %>%
-  mutate(model = map(train, ~gam(adjusted_flow~
-                                   s(ewood_precip, bs = "ts", k = 5) +
-                                   s(ewood_tmax, bs = "ts", k = 5) +
-                                   s(lagPrecip, bs = "ts", k = 5) +
-                                   s(doy, bs = "cc", k = 8) +
-                                   s(wetness, bs = "ts", k = 5) +
-                                   s(et, bs = "ts", k = 5) +
-                                   ti(ewood_precip, lagPrecip, k = 5) +
-                                   ti(ewood_precip, ewood_tmax, k = 5) +
-                                   ti(ewood_precip, wetness, k = 5) +
-                                   ti(ewood_precip, et, k = 5) +
-                                   ti(ewood_tmax, wetness, k = 5) +
-                                   ti(ewood_tmax, et, k = 5) +
-                                   ti(wetness, et, k = 5),
-                                  data = as.data.frame(.),
-                                  family = scat(link = "log"),
-                                  method = "REML",
-                                  control = gam.control(nthreads = 2))),
-         preds = map2(test,model, ~predict(.y, newdata = as.data.frame(.x),
-                                           type = "response")),
-         NSE = map2_dbl(test, preds, ~hydroGOF::NSE(as.numeric(as.data.frame(.x)$adjusted_flow),
-                                                    as.numeric(.y))),
-         KGE = map2_dbl(test, preds, ~hydroGOF::KGE(as.numeric(as.data.frame(.x)$adjusted_flow),
-                                                    as.numeric(.y))),
-         MAE = map2_dbl(test, preds, ~hydroGOF::mae(as.numeric(as.data.frame(.x)$adjusted_flow),
-                                                    as.numeric(.y))),
-         pbias = map2_dbl(test, preds, ~hydroGOF::pbias(as.numeric(as.data.frame(.x)$adjusted_flow),
-                                                    as.numeric(.y)))) -> df_16396_loocv
-  
 
 # 
 # m1.gam <- gam(adjusted_flow ~
